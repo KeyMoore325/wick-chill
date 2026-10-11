@@ -1,0 +1,5 @@
+# Candle-making landing page
+- [x] Center the palette on warm summer colors.
+- [x] Build the seven requested sections and cohesive visual design.
+- [x] Add mobile navigation, FAQ interactions, and working calls to action.
+- [x] Check desktop/mobile appearance and interaction flows.
