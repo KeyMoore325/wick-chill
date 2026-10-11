@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import studio from '@/assets/candle-studio.jpg';
+import { RitualArticle } from '@/components/ritual-article';
 
 export const Route = createFileRoute('/')({
   head: () => ({ meta: [
@@ -114,7 +115,7 @@ function Index() {
       <section id="pricing" className="cta-section" aria-labelledby="cta-title"><Flame size={30} className="cta-icon" strokeWidth={1.5}/><h2 id="cta-title" className="section-title">Make a candle. Make a little room for you.</h2><p className="section-description">A softer evening starts with a simple ritual. Yours is waiting.</p><Button variant="hero" onClick={openKit}>Find your candle-making kit <ArrowRight/></Button><p className="cta-note">A little time. Something beautiful. A moment that’s yours.</p></section>
     </main>
     <footer id="about" className="site-footer"><div className="page-width"><div className="footer-top"><div className="footer-brand"><Brand/><p className="footer-about">Thoughtful making for slower living.<br/>Find a little calm in the everyday.</p><div className="social-links">{[{ label: 'Instagram', icon: Instagram },{ label: 'Pinterest', icon: Pin },{ label: 'Facebook', icon: Facebook }].map(s => <Button key={s.label} variant="social" size="icon" title={s.label} aria-label={s.label} onClick={() => setModal(s.label)}><s.icon size={17}/></Button>)}</div></div>{footerGroups.map(group => <div className="footer-links" key={group.title}><h3>{group.title}</h3>{group.links.map(label => <a key={label} href={label === 'FAQs' ? '#faq' : label === 'How it works' ? '#features' : '#about'} onClick={e => { e.preventDefault(); footerClick(label); }}>{label}</a>)}</div>)}</div><div className="footer-bottom"><span>© 2026 Wick & Chill. All rights reserved.</span><span>Made with care. Meant for calm. <Heart size={11} className="inline ml-1"/></span></div></div></footer>
-    <Dialog open={modal !== null} onOpenChange={open => { if (!open) setModal(null); }}><DialogContent className={modal === 'kit-quiz' ? 'quiz-dialog max-w-lg w-[calc(100%-32px)] rounded-lg' : 'max-w-lg w-[calc(100%-32px)] rounded-lg'}>{modal === 'kit-quiz' ? <>
+    <Dialog open={modal !== null} onOpenChange={open => { if (!open) setModal(null); }}><DialogContent className={modal === 'ritual-article' ? 'ritual-dialog w-[calc(100%-32px)] rounded-lg' : modal === 'kit-quiz' ? 'quiz-dialog max-w-lg w-[calc(100%-32px)] rounded-lg' : 'max-w-lg w-[calc(100%-32px)] rounded-lg'}>{modal === 'kit-quiz' ? <>
       <DialogHeader><DialogTitle className="font-display text-2xl">{quizStep === 0 ? 'What scents make you exhale?' : quizStep === 1 ? 'How handy are you with a wick?' : 'Your kit match'}</DialogTitle><DialogDescription>{quizStep === 0 ? 'Pick up to three favorites. No wrong answers.' : quizStep === 1 ? 'So we can match your pace, not test you.' : 'Picked just for you.'}</DialogDescription></DialogHeader>
       <div className="quiz-progress" aria-hidden="true">{[0,1,2].map(i => <span key={i} className={i <= quizStep ? 'quiz-dot quiz-dot-active' : 'quiz-dot'}/>)}</div>
       {quizStep === 0 && <>
@@ -128,8 +129,12 @@ function Index() {
       {quizStep === 2 && <>
         <div className="quiz-scroll"><div className="quiz-result"><Flame size={26} strokeWidth={1.5}/><h3 className="font-display text-xl">{match.name}</h3><p>{match.blurb}</p><p className="quiz-result-meta">Your picks: {scents.map(s => scentOptions.find(o => o.id === s)?.label).join(' · ')}<br/>Experience: {levelOptions.find(l => l.id === level)?.label}</p></div>
         <p className="text-sm text-muted-foreground leading-relaxed">Our kit collection is coming soon — pricing and availability haven’t been set, and orders aren’t open yet. This match is just a little inspiration for your first pour.</p></div>
-        <div className="quiz-nav"><Button variant="ghost" onClick={() => { setQuizStep(0); setScents([]); setLevel(null); clearPrefs(); }}>Start over</Button><Button variant="hero" onClick={() => { setModal(null); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>Explore the ritual <ChevronRight/></Button></div>
+        <div className="quiz-nav"><Button variant="ghost" onClick={() => { setQuizStep(0); setScents([]); setLevel(null); clearPrefs(); }}>Start over</Button><Button variant="hero" onClick={() => setModal('ritual-article')}>Explore the ritual <ChevronRight/></Button></div>
       </>}
+    </> : modal === 'ritual-article' ? <>
+      <DialogHeader className="ritual-header"><DialogDescription>Wick & Chill · A moment for you</DialogDescription><DialogTitle className="font-display text-2xl leading-tight">Finding a little peace through making</DialogTitle></DialogHeader>
+      <div className="quiz-scroll ritual-scroll" tabIndex={0} aria-label="Ritual article"><RitualArticle/></div>
+      <div className="ritual-actions"><Button variant="calm" onClick={() => setModal('kit-quiz')}>Back to my match <Flame size={16}/></Button></div>
     </> : <><DialogHeader><DialogTitle className="font-display text-2xl">{modal}</DialogTitle><DialogDescription>Wick & Chill</DialogDescription></DialogHeader><p className="text-sm text-muted-foreground leading-relaxed">{modal ? info[modal] : ''}</p></>}</DialogContent></Dialog>
   </>;
 }
