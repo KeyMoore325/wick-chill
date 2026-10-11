@@ -3,3 +3,4 @@
 - [x] Build the seven requested sections and cohesive visual design.
 - [x] Add mobile navigation, FAQ interactions, and working calls to action.
 - [x] Check desktop/mobile appearance and interaction flows.
+- [x] Back up the code to github.com/KeyMoore325/wick-chill.

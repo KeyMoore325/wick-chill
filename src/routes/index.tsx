@@ -66,8 +66,20 @@ function Index() {
   const [quizStep, setQuizStep] = useState(0);
   const [scents, setScents] = useState<string[]>([]);
   const [level, setLevel] = useState<string | null>(null);
-  const openKit = () => { setMenuOpen(false); setQuizStep(0); setScents([]); setLevel(null); setModal('kit-quiz'); };
-  const toggleScent = (id: string) => setScents(prev => prev.includes(id) ? prev.filter(s => s !== id) : prev.length < 3 ? [...prev, id] : prev);
+  const quizPrefsKey = 'wick-chill-quiz-prefs';
+  const savePrefs = (nextScents: string[], nextLevel: string | null) => { try { window.localStorage.setItem(quizPrefsKey, JSON.stringify({ scents: nextScents, level: nextLevel })); } catch { /* storage unavailable */ } };
+  const loadPrefs = (): { scents: string[]; level: string | null } => {
+    try {
+      const raw = window.localStorage.getItem(quizPrefsKey);
+      if (!raw) return { scents: [], level: null };
+      const parsed = JSON.parse(raw) as { scents?: unknown; level?: unknown };
+      return { scents: Array.isArray(parsed.scents) ? (parsed.scents as string[]) : [], level: typeof parsed.level === 'string' ? parsed.level : null };
+    } catch { return { scents: [], level: null }; }
+  };
+  const clearPrefs = () => { try { window.localStorage.removeItem(quizPrefsKey); } catch { /* ignore */ } };
+  const openKit = () => { setMenuOpen(false); const saved = loadPrefs(); setQuizStep(0); setScents(saved.scents); setLevel(saved.level); setModal('kit-quiz'); };
+  const toggleScent = (id: string) => setScents(prev => { const next = prev.includes(id) ? prev.filter(s => s !== id) : prev.length < 3 ? [...prev, id] : prev; savePrefs(next, level); return next; });
+  const chooseLevel = (id: string) => { setLevel(id); savePrefs(scents, id); };
   const match = kitMatches[scents[0] ?? 'citrus'] ?? kitMatches['citrus']!;
   const go = () => setMenuOpen(false);
   function navLinks() { return <><a href="#home" onClick={go}>Home</a><a href="#features" onClick={go}>Features</a><a href="#pricing" onClick={go}>Pricing</a><a href="#about" onClick={go}>About</a></>; }
@@ -102,21 +114,21 @@ function Index() {
       <section id="pricing" className="cta-section" aria-labelledby="cta-title"><Flame size={30} className="cta-icon" strokeWidth={1.5}/><h2 id="cta-title" className="section-title">Make a candle. Make a little room for you.</h2><p className="section-description">A softer evening starts with a simple ritual. Yours is waiting.</p><Button variant="hero" onClick={openKit}>Find your candle-making kit <ArrowRight/></Button><p className="cta-note">A little time. Something beautiful. A moment that’s yours.</p></section>
     </main>
     <footer id="about" className="site-footer"><div className="page-width"><div className="footer-top"><div className="footer-brand"><Brand/><p className="footer-about">Thoughtful making for slower living.<br/>Find a little calm in the everyday.</p><div className="social-links">{[{ label: 'Instagram', icon: Instagram },{ label: 'Pinterest', icon: Pin },{ label: 'Facebook', icon: Facebook }].map(s => <Button key={s.label} variant="social" size="icon" title={s.label} aria-label={s.label} onClick={() => setModal(s.label)}><s.icon size={17}/></Button>)}</div></div>{footerGroups.map(group => <div className="footer-links" key={group.title}><h3>{group.title}</h3>{group.links.map(label => <a key={label} href={label === 'FAQs' ? '#faq' : label === 'How it works' ? '#features' : '#about'} onClick={e => { e.preventDefault(); footerClick(label); }}>{label}</a>)}</div>)}</div><div className="footer-bottom"><span>© 2026 Wick & Chill. All rights reserved.</span><span>Made with care. Meant for calm. <Heart size={11} className="inline ml-1"/></span></div></div></footer>
-    <Dialog open={modal !== null} onOpenChange={open => { if (!open) setModal(null); }}><DialogContent className="max-w-lg w-[calc(100%-32px)] rounded-lg">{modal === 'kit-quiz' ? <>
+    <Dialog open={modal !== null} onOpenChange={open => { if (!open) setModal(null); }}><DialogContent className={modal === 'kit-quiz' ? 'quiz-dialog max-w-lg w-[calc(100%-32px)] rounded-lg' : 'max-w-lg w-[calc(100%-32px)] rounded-lg'}>{modal === 'kit-quiz' ? <>
       <DialogHeader><DialogTitle className="font-display text-2xl">{quizStep === 0 ? 'What scents make you exhale?' : quizStep === 1 ? 'How handy are you with a wick?' : 'Your kit match'}</DialogTitle><DialogDescription>{quizStep === 0 ? 'Pick up to three favorites. No wrong answers.' : quizStep === 1 ? 'So we can match your pace, not test you.' : 'Picked just for you.'}</DialogDescription></DialogHeader>
       <div className="quiz-progress" aria-hidden="true">{[0,1,2].map(i => <span key={i} className={i <= quizStep ? 'quiz-dot quiz-dot-active' : 'quiz-dot'}/>)}</div>
       {quizStep === 0 && <>
-        <div className="quiz-options">{scentOptions.map(s => <button key={s.id} type="button" className={scents.includes(s.id) ? 'quiz-option quiz-option-selected' : 'quiz-option'} aria-pressed={scents.includes(s.id)} onClick={() => toggleScent(s.id)}><span className="quiz-option-label">{s.label}</span><span className="quiz-option-hint">{s.hint}</span></button>)}</div>
-        <Button variant="hero" disabled={scents.length === 0} onClick={() => setQuizStep(1)}>Next <ArrowRight/></Button>
+        <div className="quiz-scroll"><div className="quiz-options">{scentOptions.map(s => <button key={s.id} type="button" className={scents.includes(s.id) ? 'quiz-option quiz-option-selected' : 'quiz-option'} aria-pressed={scents.includes(s.id)} onClick={() => toggleScent(s.id)}><span className="quiz-option-label">{s.label}</span><span className="quiz-option-hint">{s.hint}</span></button>)}</div></div>
+        <div className="quiz-nav"><Button variant="hero" disabled={scents.length === 0} onClick={() => setQuizStep(1)}>Next <ArrowRight/></Button></div>
       </>}
       {quizStep === 1 && <>
-        <div className="quiz-options">{levelOptions.map(l => <button key={l.id} type="button" className={level === l.id ? 'quiz-option quiz-option-selected' : 'quiz-option'} aria-pressed={level === l.id} onClick={() => setLevel(l.id)}><span className="quiz-option-label">{l.label}</span><span className="quiz-option-hint">{l.hint}</span></button>)}</div>
+        <div className="quiz-scroll"><div className="quiz-options">{levelOptions.map(l => <button key={l.id} type="button" className={level === l.id ? 'quiz-option quiz-option-selected' : 'quiz-option'} aria-pressed={level === l.id} onClick={() => chooseLevel(l.id)}><span className="quiz-option-label">{l.label}</span><span className="quiz-option-hint">{l.hint}</span></button>)}</div></div>
         <div className="quiz-nav"><Button variant="ghost" onClick={() => setQuizStep(0)}>Back</Button><Button variant="hero" disabled={level === null} onClick={() => setQuizStep(2)}>See my match <Sparkles size={15}/></Button></div>
       </>}
       {quizStep === 2 && <>
-        <div className="quiz-result"><Flame size={26} strokeWidth={1.5}/><h3 className="font-display text-xl">{match.name}</h3><p>{match.blurb}</p><p className="quiz-result-meta">Your picks: {scents.map(s => scentOptions.find(o => o.id === s)?.label).join(' · ')}<br/>Experience: {levelOptions.find(l => l.id === level)?.label}</p></div>
-        <p className="text-sm text-muted-foreground leading-relaxed">Our kit collection is coming soon — pricing and availability haven’t been set, and orders aren’t open yet. This match is just a little inspiration for your first pour.</p>
-        <div className="quiz-nav"><Button variant="ghost" onClick={() => setQuizStep(0)}>Start over</Button><Button variant="hero" onClick={() => { setModal(null); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>Explore the ritual <ChevronRight/></Button></div>
+        <div className="quiz-scroll"><div className="quiz-result"><Flame size={26} strokeWidth={1.5}/><h3 className="font-display text-xl">{match.name}</h3><p>{match.blurb}</p><p className="quiz-result-meta">Your picks: {scents.map(s => scentOptions.find(o => o.id === s)?.label).join(' · ')}<br/>Experience: {levelOptions.find(l => l.id === level)?.label}</p></div>
+        <p className="text-sm text-muted-foreground leading-relaxed">Our kit collection is coming soon — pricing and availability haven’t been set, and orders aren’t open yet. This match is just a little inspiration for your first pour.</p></div>
+        <div className="quiz-nav"><Button variant="ghost" onClick={() => { setQuizStep(0); setScents([]); setLevel(null); clearPrefs(); }}>Start over</Button><Button variant="hero" onClick={() => { setModal(null); document.getElementById('features')?.scrollIntoView({ behavior: 'smooth' }); }}>Explore the ritual <ChevronRight/></Button></div>
       </>}
     </> : <><DialogHeader><DialogTitle className="font-display text-2xl">{modal}</DialogTitle><DialogDescription>Wick & Chill</DialogDescription></DialogHeader><p className="text-sm text-muted-foreground leading-relaxed">{modal ? info[modal] : ''}</p></>}</DialogContent></Dialog>
   </>;

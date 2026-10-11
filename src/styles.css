@@ -113,6 +113,10 @@
 .dialog-list { display: grid; gap: 10px; font-size: 14px; color: var(--muted-foreground); }
 .dialog-list li { display: flex; align-items: center; gap: 10px; }
 .dialog-list svg { color: var(--primary); }
+.quiz-dialog { display: flex; flex-direction: column; max-height: min(680px, calc(100dvh - 32px)); }
+.quiz-scroll { min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
+.quiz-scroll::-webkit-scrollbar { width: 6px; }
+.quiz-scroll::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
 .quiz-progress { display: flex; gap: 6px; margin: 4px 0 14px; }
 .quiz-dot { width: 22px; height: 4px; border-radius: 2px; background: var(--border); transition: background .25s ease; }
 .quiz-dot-active { background: var(--primary); }
