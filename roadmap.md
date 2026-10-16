@@ -6,3 +6,9 @@
 - [x] Back up the code to github.com/KeyMoore325/wick-chill.
 - [x] Open a short inspiring ritual article from every “Explore the ritual” button.
 - [x] Verify credible stress statistics and the article window’s reading and return flow.
+- [x] Restyle the studio photo’s shirt to the draped bishop-sleeve look and refresh the GitHub backup.
+- [x] Add Wick It kit collection and About Us founder pages with provisional content.
+- [x] Share navigation, footer, and existing dialogs across all pages.
+- [x] Verify navigation and new pages on desktop and mobile.
+- [x] Remove the Pricing destination from navigation and footer; Wick It replaces it.
+- [ ] Clarify what the visitor's "no" referred to and act on it.

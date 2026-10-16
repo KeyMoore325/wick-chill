@@ -43,9 +43,9 @@
 .nav-inner { height: 100%; display: flex; align-items: center; justify-content: space-between; }
 .brand { display: inline-flex; align-items: center; gap: 9px; font-family: var(--font-display); font-size: 24px; font-weight: 750; white-space: nowrap; }
 .brand-mark { display: inline-flex; align-items: center; justify-content: center; color: var(--primary); }
-.nav-links { display: flex; gap: 34px; font-size: 14px; }
+.nav-links { display: flex; gap: 24px; font-size: 14px; }
 .nav-links a:hover,.footer-links a:hover { color: var(--primary); }
-.nav-links a:first-child { color: var(--primary); font-weight: 600; }
+.nav-links a[aria-current=page] { color: var(--primary); font-weight: 600; }
 .mobile-toggle { display: none; }
 .hero { position: relative; min-height: 630px; display: flex; align-items: center; overflow: hidden; }
 .hero-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center; }
@@ -121,7 +121,7 @@
 .quiz-dot { width: 22px; height: 4px; border-radius: 2px; background: var(--border); transition: background .25s ease; }
 .quiz-dot-active { background: var(--primary); }
 .quiz-options { display: grid; gap: 8px; margin-bottom: 18px; }
-.quiz-option { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 11px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--background); cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
+.quiz-option { display: flex; height: auto; white-space: normal; flex-direction: column; align-items: flex-start; gap: 2px; text-align: left; padding: 11px 14px; border: 1px solid var(--border); border-radius: 6px; background: var(--background); cursor: pointer; transition: border-color .2s ease, background .2s ease, transform .15s ease; }
 .quiz-option:hover { border-color: var(--primary); transform: translateY(-1px); }
 .quiz-option:focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; }
 .quiz-option-selected { border-color: var(--primary); background: var(--accent); }
@@ -148,6 +148,56 @@
 .ritual-article .ritual-source { font-size: 12px; line-height: 1.7; border-top: 1px solid var(--border); padding-top: 16px; margin-bottom: 4px; }
 .ritual-actions { border-top: 1px solid var(--border); padding-top: 12px; display: flex; justify-content: flex-end; flex-shrink: 0; }
 .page-enter { animation: page-enter .7s ease both; }
+.collection-heading { padding-block: 58px 36px; text-align: center; }
+.inner-title { font-size: 56px; font-weight: 750; line-height: 1.15; margin: 14px 0; }
+.collection-feature { display: grid; grid-template-columns: 1.1fr 1fr; gap: 58px; align-items: center; padding-bottom: 55px; }
+.collection-feature img { width: 100%; aspect-ratio: 1.5; object-fit: cover; border-radius: 6px; }
+.preview-note { font-size: 12px; line-height: 1.7; color: var(--muted-foreground); border-left: 2px solid var(--primary); padding-left: 14px; margin-top: 20px; }
+.collection-section { padding-block: 20px 72px; }
+.collection-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; margin-bottom: 25px; }
+.kit-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.kit-card { border: 1px solid var(--border); border-radius: 6px; padding: 28px; background: var(--card); display: flex; flex-direction: column; align-items: start; }
+.kit-card-icon { color: var(--primary); background: var(--secondary); width: 60px; height: 60px; display: grid; place-items: center; border-radius: 6px; margin-bottom: 24px; }
+.kit-notes { color: var(--primary); font-size: 12px; margin-bottom: 10px; }
+.kit-card h3 { font-size: 20px; font-weight: 700; line-height: 1.4; margin-bottom: 12px; }
+.kit-card > p:not(.kit-notes), .value-item p { font-size: 14px; line-height: 1.8; color: var(--muted-foreground); }
+.kit-status { border-top: 1px solid var(--border); padding-top: 20px; margin-top: 24px; font-size: 11px; color: var(--muted-foreground); width: 100%; }
+.about-hero { min-height: 430px; }
+.founder-section { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; padding-block: 70px; }
+.founder-signature { color: var(--primary); font-size: 20px; line-height: 1.7; margin-top: 25px; }
+.founder-copy > p:not(.preview-note) { font-size: 16px; color: var(--muted-foreground); line-height: 1.9; margin-bottom: 20px; }
+.founder-copy .preview-note { margin: 0 0 24px; }
+.founder-signoff strong { color: var(--foreground); font-family: var(--font-display); font-size: 24px; }
+.founder-signoff span { display: block; font-size: 12px; }
+.values-section { padding-block: 60px; background: var(--secondary); }
+.values-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 48px; margin-top: 35px; }
+.value-item svg { color: var(--primary); }
+.value-item h3 { font-size: 18px; font-weight: 700; margin-block: 18px 10px; }
+@media (min-width: 701px) and (max-width: 1100px) {
+  .nav-inner { gap: 18px; }
+  .nav-links { gap: 15px; font-size: 12px; }
+  .brand { font-size: 20px; }
+  .desktop-cta { padding-inline: 14px; }
+}
+@media (max-width: 800px) {
+  .kit-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .collection-feature { gap: 28px; }
+  .founder-section { gap: 40px; }
+}
+@media (max-width: 700px) {
+  .collection-heading { padding-block: 38px 28px; }
+  .inner-title { font-size: 43px; }
+  .collection-feature, .founder-section, .values-grid { grid-template-columns: 1fr; gap: 28px; }
+  .collection-feature { padding-bottom: 28px; }
+  .collection-section { padding-bottom: 45px; }
+  .collection-section-heading { display: block; }
+  .kit-grid { grid-template-columns: 1fr; gap: 16px; }
+  .kit-card { padding: 24px; }
+  .about-hero { min-height: 470px; }
+  .founder-section { padding-block: 45px; }
+  .founder-signature { margin-top: 15px; }
+  .values-section { padding-block: 45px; }
+}
 @keyframes page-enter { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 @media (min-width: 1500px) { .hero { min-height: 680px; } }
 @media (max-width: 1000px) {
