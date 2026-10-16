@@ -11,4 +11,8 @@
 - [x] Share navigation, footer, and existing dialogs across all pages.
 - [x] Verify navigation and new pages on desktop and mobile.
 - [x] Remove the Pricing destination from navigation and footer; Wick It replaces it.
+- [x] Copy the new pages and the Pricing removal to the GitHub backup.
+- [x] Rename the ritual-flavoured buttons to plain labels: "Explore" and "Get started".
 - [ ] Clarify what the visitor's "no" referred to and act on it.
+- [x] Pick a replacement word for "Features" in the navigation — now "Explore"; the kit-match button reads "Why Chill".
+- [x] Add a "Why Chill" button to the navigation that opens the article window on every page and in the mobile menu.

@@ -1,3 +1,4 @@
+import type React from 'react';
 import { createContext, useContext, useState, type ReactNode } from 'react';
 import { Link } from '@tanstack/react-router';
 import { ArrowRight, ChevronRight, Flame, Heart, Instagram, Menu, Sparkles, X, Facebook, Pin } from 'lucide-react';
@@ -5,7 +6,10 @@ import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RitualArticle } from '@/components/ritual-article';
 
-const SiteContext = createContext<{ openKit: () => void; openInfo: (label: string) => void } | null>(null);
+type SiteActions = { openKit: () => void; openInfo: (label: string) => void; openArticle: () => void };
+// Keep one context object across live reloads so the page and the shell always share it.
+const contextStore = globalThis as typeof globalThis & { __wickChillSiteContext?: React.Context<SiteActions | null> };
+const SiteContext = (contextStore.__wickChillSiteContext ??= createContext<SiteActions | null>(null));
 export function useSiteActions() {
   const actions = useContext(SiteContext);
   if (!actions) throw new Error('Site actions need the shared site shell');
@@ -61,7 +65,8 @@ export function SiteShell({ children }: { children: ReactNode }) {
   const chooseLevel = (id: string) => { setLevel(id); savePrefs(scents, id); };
   const match = kitMatches[scents[0] ?? 'citrus'] ?? { name: 'The Sunny Side Kit', blurb: 'A bright, cheerful first pour.' };
   const go = () => setMenuOpen(false);
-  function navLinks() { return <><Link to="/" activeOptions={{ exact: true }} onClick={go}>Home</Link><Link to="/" hash="features" onClick={go}>Features</Link><Link to="/wick-it" onClick={go}>Wick It</Link><Link to="/about-us" onClick={go}>About Us</Link></>; }
+  const openArticle = () => { setMenuOpen(false); setModal('ritual-article'); };
+  function navLinks() { return <><Link to="/" activeOptions={{ exact: true }} onClick={go}>Home</Link><Link to="/" hash="features" activeOptions={{ includeHash: true }} onClick={go}>Explore</Link><Link to="/wick-it" onClick={go}>Wick It</Link><Link to="/about-us" onClick={go}>About Us</Link><button type="button" className="nav-link" onClick={openArticle}>Why Chill</button></>; }
   const info: Record<string, string> = {
     'Our story': 'Wick & Chill is a concept built around a simple idea: making room for small, creative rituals in a busy day. A candle is just the beginning. The time you give yourself is the meaningful part.',
     'Our philosophy': 'Less rushing. More making. We believe in mindful creativity, simple materials, and finding joy in the process rather than chasing perfection.',
@@ -80,7 +85,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
     if (label === 'Candle-making kits') { openKit(); return; }
     setModal(label);
   }
-  return <SiteContext.Provider value={{ openKit, openInfo: setModal }}>
+  return <SiteContext.Provider value={{ openKit, openInfo: setModal, openArticle }}>
     <a href="#main" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-50 focus:bg-background focus:p-3">Skip to content</a>
     <header className="site-nav"><div className="page-width nav-inner"><Brand /><nav className="nav-links" aria-label="Main navigation">{navLinks()}</nav><Button variant="hero" className="desktop-cta" onClick={openKit}>Find your calm <ArrowRight size={15}/></Button><Button variant="ghost" size="icon" className="mobile-toggle" aria-label={menuOpen ? 'Close navigation' : 'Open navigation'} aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen(!menuOpen)}>{menuOpen ? <X/> : <Menu/>}</Button></div>{menuOpen && <nav id="mobile-navigation" className="mobile-menu" aria-label="Mobile navigation">{navLinks()}<Button variant="hero" onClick={openKit}>Find your calm <ArrowRight/></Button></nav>}</header>
     {children}
@@ -99,7 +104,7 @@ export function SiteShell({ children }: { children: ReactNode }) {
       {quizStep === 2 && <>
         <div className="quiz-scroll"><div className="quiz-result"><Flame size={26} strokeWidth={1.5}/><h3 className="font-display text-xl">{match.name}</h3><p>{match.blurb}</p><p className="quiz-result-meta">Your picks: {scents.map(s => scentOptions.find(o => o.id === s)?.label).join(' · ')}<br/>Experience: {levelOptions.find(l => l.id === level)?.label}</p></div>
         <p className="text-sm text-muted-foreground leading-relaxed">Our kit collection is coming soon — pricing and availability haven’t been set, and orders aren’t open yet. This match is just a little inspiration for your first pour.</p></div>
-        <div className="quiz-nav"><Button variant="ghost" onClick={() => { setQuizStep(0); setScents([]); setLevel(null); clearPrefs(); }}>Start over</Button><Button variant="hero" onClick={() => setModal('ritual-article')}>Explore the ritual <ChevronRight/></Button></div>
+        <div className="quiz-nav"><Button variant="ghost" onClick={() => { setQuizStep(0); setScents([]); setLevel(null); clearPrefs(); }}>Start over</Button><Button variant="hero" onClick={() => setModal('ritual-article')}>Why Chill <ChevronRight/></Button></div>
       </>}
     </> : modal === 'ritual-article' ? <>
       <DialogHeader className="ritual-header"><DialogDescription>Wick & Chill · A moment for you</DialogDescription><DialogTitle className="font-display text-2xl leading-tight">Finding a little peace through making</DialogTitle></DialogHeader>
