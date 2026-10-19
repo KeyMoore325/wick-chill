@@ -5,6 +5,7 @@ import { ArrowRight, ChevronRight, Flame, Heart, Instagram, Menu, Sparkles, X, F
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { RitualArticle } from '@/components/ritual-article';
+import { useScrollReveal } from '@/hooks/use-scroll-reveal';
 
 type SiteActions = { openKit: () => void; openInfo: (label: string) => void; openArticle: () => void };
 // Keep one context object across live reloads so the page and the shell always share it.
@@ -44,6 +45,7 @@ const kitMatches: Record<string, { name: string; blurb: string }> = {
   spice: { name: 'The Golden Hour Kit', blurb: 'Rich amber warmth for makers who like their calm with a little depth.' },
 };
 export function SiteShell({ children }: { children: ReactNode }) {
+  useScrollReveal();
   const [menuOpen, setMenuOpen] = useState(false);
   const [modal, setModal] = useState<string | null>(null);
   const [quizStep, setQuizStep] = useState(0);

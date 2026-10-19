@@ -16,3 +16,5 @@
 - [ ] Clarify what the visitor's "no" referred to and act on it.
 - [x] Pick a replacement word for "Features" in the navigation — now "Explore"; the kit-match button reads "Why Chill".
 - [x] Add a "Why Chill" button to the navigation that opens the article window on every page and in the mobile menu.
+- [x] Add button hover effects and upward fade-in effects on scroll; verify page navigation and reduced motion.
+- [x] Make the upward fade-in more noticeable.

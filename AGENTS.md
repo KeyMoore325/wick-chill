@@ -13,4 +13,5 @@
 - Use accessible dialogs for kit previews and supplementary footer information until real business destinations are provided; never imply an operational checkout.
 - Keep the ritual article in a dedicated presentation component inside the existing dialog flow, with a scrollable reading area and a return to the unchanged quiz result; this preserves answers and keeps controls reachable on short screens.
 - Mount SiteShell around the root Outlet for shared navigation, footer, and dialog state; pages use its action context so quiz answers survive page navigation.
+- Keep scroll reveals in the shared shell's browser-only hook and button motion in global styles; animate off-screen sections once per page visit, preserve visible content without JavaScript, and respect reduced motion.
 - Keep the kit collection and founder story in dedicated /wick-it and /about-us routes with their own metadata; identify unconfirmed products and biography as provisional content.
