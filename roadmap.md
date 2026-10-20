@@ -18,3 +18,5 @@
 - [x] Add a "Why Chill" button to the navigation that opens the article window on every page and in the mobile menu.
 - [x] Add button hover effects and upward fade-in effects on scroll; verify page navigation and reduced motion.
 - [x] Make the upward fade-in more noticeable.
+- [x] Audit all public pages and improve search titles, descriptions, canonical addresses, and sitemap; verify the rendered result.
+- [x] Improve narrow-screen layout, touch targets, and short-screen menus/dialogs; verify all pages and the complete quiz/article flow.

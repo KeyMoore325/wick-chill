@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AboutUsRouteImport } from './routes/about-us'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as WickItRouteImport } from './routes/wick-it'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +24,11 @@ const AboutUsRoute = AboutUsRouteImport.update({
   path: '/about-us',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const WickItRoute = WickItRouteImport.update({
   id: '/wick-it',
   path: '/wick-it',
@@ -32,30 +38,34 @@ const WickItRoute = WickItRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wick-it': typeof WickItRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wick-it': typeof WickItRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/about-us': typeof AboutUsRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/wick-it': typeof WickItRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about-us' | '/wick-it'
+  fullPaths: '/' | '/about-us' | '/sitemap.xml' | '/wick-it'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about-us' | '/wick-it'
-  id: '__root__' | '/' | '/about-us' | '/wick-it'
+  to: '/' | '/about-us' | '/sitemap.xml' | '/wick-it'
+  id: '__root__' | '/' | '/about-us' | '/sitemap.xml' | '/wick-it'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutUsRoute: typeof AboutUsRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   WickItRoute: typeof WickItRoute
 }
 
@@ -75,6 +85,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AboutUsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/wick-it': {
       id: '/wick-it'
       path: '/wick-it'
@@ -88,6 +105,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutUsRoute: AboutUsRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   WickItRoute: WickItRoute,
 }
 export const routeTree = rootRouteImport

@@ -76,15 +76,13 @@ function ErrorComponent({ error, reset }: ErrorComponentProps) {
 }
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
+  staticData: { sitemap: false },
   head: () => ({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Wick & Chill | A little less rush. A little more ritual." },
-      { name: "description", content: "Discover the calming ritual of candle making with Wick & Chill." },
       { name: "author", content: "Wick & Chill" },
-      { property: "og:title", content: "Wick & Chill | A little less rush. A little more ritual." },
-      { property: "og:description", content: "Discover the calming ritual of candle making with Wick & Chill." },
+      { property: "og:site_name", content: "Wick & Chill" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
       
@@ -97,6 +95,16 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" },
     ],
+    scripts: [{
+      type: "application/ld+json",
+      children: JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        name: "Wick & Chill",
+        url: "https://serenity-scent-story.lovable.app",
+        description: "Candle-making inspiration for creativity and calmer moments.",
+      }),
+    }],
   }),
   shellComponent: RootShell,
   component: RootComponent,

@@ -5,14 +5,16 @@ import { useSiteActions } from '@/components/site-shell';
 import kitsImage from '@/assets/candle-kits.jpg';
 
 export const Route = createFileRoute('/wick-it')({
+  staticData: { sitemap: true },
   head: () => ({ meta: [
-    { title: 'Wick It — Candle-making kits | Wick & Chill' },
-    { name: 'description', content: 'Explore six candle-making kit concepts, from bright citrus to soft lavender. Find inspiration for a slower, more creative afternoon.' },
-    { property: 'og:title', content: 'Wick It — Candle-making kits | Wick & Chill' },
-    { property: 'og:description', content: 'A scent for every kind of slow day. Preview the Wick & Chill candle-making collection.' },
+    { title: 'Wick It Candle-Making Kit Collection Preview | Wick & Chill' },
+    { name: 'description', content: 'Preview six Wick It candle-making kit concepts, from citrus and lavender to vanilla and amber. Find your scent inspiration. Collection coming soon.' },
+    { property: 'og:title', content: 'Wick It Candle-Making Kit Collection Preview | Wick & Chill' },
+    { property: 'og:description', content: 'Preview six Wick It candle-making kit concepts, from citrus and lavender to vanilla and amber. Find your scent inspiration. Collection coming soon.' },
+    { property: 'og:url', content: 'https://serenity-scent-story.lovable.app/wick-it' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
+  ], links: [{ rel: 'canonical', href: 'https://serenity-scent-story.lovable.app/wick-it' }] }),
   component: WickIt,
 });
 

@@ -6,14 +6,16 @@ import studio from '@/assets/candle-studio.jpg';
 import { useSiteActions } from '@/components/site-shell';
 
 export const Route = createFileRoute('/')({
+  staticData: { sitemap: true },
   head: () => ({ meta: [
-    { title: 'Wick & Chill — Candle making for a calmer you' },
-    { name: 'description', content: 'Slow down, make something beautiful, and discover the stress-relieving ritual of candle making with Wick & Chill.' },
-    { property: 'og:title', content: 'Wick & Chill — Candle making for a calmer you' },
-    { property: 'og:description', content: 'A little less rush. A little more ritual. Discover a calming, creative candle-making experience.' },
+    { title: 'Candle Making for Beginners & Creative Calm | Wick & Chill' },
+    { name: 'description', content: 'Discover candle making with Wick & Chill. Explore beginner-friendly steps, scent inspiration, and kit concepts for a creative pause in your day.' },
+    { property: 'og:title', content: 'Candle Making for Beginners & Creative Calm | Wick & Chill' },
+    { property: 'og:description', content: 'Discover candle making with Wick & Chill. Explore beginner-friendly steps, scent inspiration, and kit concepts for a creative pause in your day.' },
+    { property: 'og:url', content: 'https://serenity-scent-story.lovable.app/' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
+  ], links: [{ rel: 'canonical', href: 'https://serenity-scent-story.lovable.app/' }] }),
   component: Index,
 });
 const steps = [

@@ -15,3 +15,5 @@
 - Mount SiteShell around the root Outlet for shared navigation, footer, and dialog state; pages use its action context so quiz answers survive page navigation.
 - Keep scroll reveals in the shared shell's browser-only hook and button motion in global styles; animate off-screen sections once per page visit, preserve visible content without JavaScript, and respect reduced motion.
 - Keep the kit collection and founder story in dedicated /wick-it and /about-us routes with their own metadata; identify unconfirmed products and biography as provisional content.
+- Keep page-specific search metadata and self-referencing canonical URLs on leaf routes; every route must declare its sitemap eligibility so the router-derived sitemap tracks public pages automatically.
+- Keep mobile touch targets and viewport-bounded menus/dialogs in the shared presentation system, with independently scrolling dialog content and non-shrinking actions; all pages inherit reachable controls on narrow and short screens.

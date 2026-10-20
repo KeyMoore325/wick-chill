@@ -4,14 +4,16 @@ import { Button } from '@/components/ui/button';
 import studio from '@/assets/candle-studio.jpg';
 
 export const Route = createFileRoute('/about-us')({
+  staticData: { sitemap: true },
   head: () => ({ meta: [
-    { title: 'About Us — Our story | Wick & Chill' },
-    { name: 'description', content: 'Meet the idea behind Wick & Chill: making space for creativity, connection, and calmer moments through candle making. Preview our founder story.' },
-    { property: 'og:title', content: 'About Us — Our story | Wick & Chill' },
-    { property: 'og:description', content: 'A creative pause in a busy world. Get to know the inspiration behind Wick & Chill.' },
+    { title: 'About Wick & Chill | Creativity, Candles & Connection' },
+    { name: 'description', content: 'Explore the idea behind Wick & Chill: creativity, connection, and time for yourself through candle making. Read a preview of our founder story.' },
+    { property: 'og:title', content: 'About Wick & Chill | Creativity, Candles & Connection' },
+    { property: 'og:description', content: 'Explore the idea behind Wick & Chill: creativity, connection, and time for yourself through candle making. Read a preview of our founder story.' },
+    { property: 'og:url', content: 'https://serenity-scent-story.lovable.app/about-us' },
     { property: 'og:type', content: 'website' },
     { name: 'twitter:card', content: 'summary_large_image' },
-  ] }),
+  ], links: [{ rel: 'canonical', href: 'https://serenity-scent-story.lovable.app/about-us' }] }),
   component: AboutUs,
 });
 
